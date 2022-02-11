@@ -19,4 +19,4 @@ jobs:
       - name: test
         env:
           TESTVAR: ${{ join(toJson(github.event.commits.*.message))}}
-        run: echo '$TESTVAR' 
+        run: echo "$TESTVAR" 
