@@ -17,4 +17,6 @@ jobs:
       #       !contains(join(toJson(github.event.commits.*.message), '#skip')
       #     }} 
       - name: test
-        run: echo ${{toJson(github.event.commits.*.message)}} 
+        env:
+          TESTVAR: ${{ toJson(github.event.commits.*.message)}}
+          run: echo ${{ join(TESTVAR)}}
