@@ -41,7 +41,7 @@ jobs:
           #   github.event_name == 'push' && 
           #   !contains(env.MESSAGES, '#skip')
           # }} 
-        run: echo "shouldn't do this on pull request"
+        run: echo "shouldn't do this on pull request or skip"
         # uses: akhileshns/heroku-deploy@v3.12.12
         # with:
         #   heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -55,7 +55,7 @@ jobs:
         if: |
           github.event_name == 'push' && 
           !contains(env.MESSAGES, '#skip')
-        run: echo "shouldn't do this on pull request"
+        run: echo "shouldn't do this on pull request or skip"
         # uses: anothrNick/github-tag-action@1.33.0
         # env:
         #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
