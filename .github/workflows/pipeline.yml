@@ -10,6 +10,8 @@ on:
 
 jobs:
   simple_deployment_pipeline:
+    env:
+      MESSAGES: ${{join(toJson(github.event.commits.*.message))}}
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
@@ -33,7 +35,7 @@ jobs:
       - if: |
           ${{ 
             github.event_name == 'push' && 
-            !contains(join(github.event.commits.*.message), "#skip")
+            !contains(env.MESSAGES, '#skip')
           }} 
         name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12
@@ -48,7 +50,7 @@ jobs:
       - if: |
           ${{ 
             github.event_name == 'push' && 
-            !contains(join(github.event.commits.*.message), "#skip")
+            !contains(env.MESSAGES, '#skip')
           }} 
         name: bump version and push version tag
         uses: anothrNick/github-tag-action@1.33.0

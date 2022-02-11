@@ -19,5 +19,9 @@ jobs:
       - name: test
         env:
           TESTVAR: ${{join(toJson(github.event.commits.*.message))}}
-        if: ${{contains(env.TESTVAR, '#skip')}}
+        if: | 
+          ${{
+            github.event_name == 'push' && 
+            contains(env.TESTVAR, '#skip')
+          }}
         run: echo "got skip!" 
