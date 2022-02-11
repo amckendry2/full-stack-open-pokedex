@@ -11,9 +11,10 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - if: |
-          ${{ 
-            github.event_name == 'push' && 
-            !contains(join(toJson(github.event.commits.*.message)), '#skip')
-          }} 
-        run: echo "no skip!"
+      # - if: |
+      #     ${{ 
+      #       github.event_name == 'push' && 
+      #       !contains(join(toJson(github.event.commits.*.message), '#skip')
+      #     }} 
+      - name: test
+        run: echo ${{toJson(github.event.commits.*.message)}} 
