@@ -18,5 +18,6 @@ jobs:
       #     }} 
       - name: test
         env:
-          TESTVAR: ${{ contains(join(toJson(github.event.commits.*.message)), '#skip')}}
-        run: echo "$TESTVAR" 
+          TESTVAR: ${{join(toJson(github.event.commits.*.message))}}
+          SKIP: ${{contains($TESTVAR, '#skip')}}
+        run: echo "$SKIP" 
