@@ -26,34 +26,36 @@ jobs:
         run: npm run build
       - name: test
         run: npm run test
-      - name: e2e tests
-        uses: cypress-io/github-action@v2
-        with:
-          command: npm run test:e2e
-          start: npm run start-prod
-          wait-on: http://localhost:5000
-      - if: |
+      # - name: e2e tests
+      #   uses: cypress-io/github-action@v2
+      #   with:
+      #     command: npm run test:e2e
+      #     start: npm run start-prod
+      #     wait-on: http://localhost:5000
+      - name: deploy to heroku
+        if: |
           ${{ 
             github.event_name == 'push' && 
             !contains(env.MESSAGES, '#skip')
           }} 
-        name: deploy to heroku
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "safe-harbor-99423"
-          heroku_email: "a.mckendry2@gmail.com"
-          healthcheck: "https://safe-harbor-99423.herokuapp.com/health"
-          checkstring: "ok"
-          rollbackonhealthcheckfailed: true
+        run: echo "shouldn't do this on pull request"
+        # uses: akhileshns/heroku-deploy@v3.12.12
+        # with:
+        #   heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        #   heroku_app_name: "safe-harbor-99423"
+        #   heroku_email: "a.mckendry2@gmail.com"
+        #   healthcheck: "https://safe-harbor-99423.herokuapp.com/health"
+        #   checkstring: "ok"
+        #   rollbackonhealthcheckfailed: true
       - uses: actions/checkout@v2
-      - if: |
+      - name: bump version and push version tag
+        if: |
           ${{ 
             github.event_name == 'push' && 
             !contains(env.MESSAGES, '#skip')
           }} 
-        name: bump version and push version tag
-        uses: anothrNick/github-tag-action@1.33.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BUMP: patch
+        run: echo "shouldn't do this on pull request"
+        # uses: anothrNick/github-tag-action@1.33.0
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #   DEFAULT_BUMP: patch
